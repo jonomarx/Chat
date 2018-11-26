@@ -7,6 +7,9 @@ import java.net.*;
 import java.util.*;
 
 public class Server {
+    
+    public static double version = 1.1;
+    
     static LinkedList<Socket> list = new LinkedList<>();
     public static void main(String[] args) throws IOException {
         System.setOut(new PrintStream(new File(System.nanoTime() + ".log")));
@@ -14,6 +17,7 @@ public class Server {
         while(true) {
             Socket s = sock.accept();
             list.add(s);
+            new PrintStream(s.getOutputStream()).println("Version: " + version + "<br>\n");
             new Thread(new Runnable() {
                 @Override
                 public void run() {
