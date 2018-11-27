@@ -55,23 +55,17 @@ public class Client extends JFrame {
                                 }
                                 if(string.startsWith("Version:")) string = string.substring(12);
                                 
-                                String[] strings = string.split(" ");
-                                for(int i = 0; i < strings.length; i++) {
-                                    String str = strings[i];
-                                    if (str.startsWith("http://") || str.startsWith("https://")) strings[i] = "<a href='"+ str + "'>"+str+"</a>";
-                                }
-                                StringBuilder stri = new StringBuilder();
-                                Iterator<String> it = list.descendingIterator();
-                                while (it.hasNext()) {
-                                    stri.append(it.next());
-                                }
-                                String listString = stri.toString();
                                 list.add(string + "<br>");
-                                String stuff = listString.substring(1, listString.length() - 2 < 1 ? 0 : listString.length() - 2);
+                                String listString = arrayToList(list.toArray());
+                                String stuff = listString;
                                 System.out.println(stuff);
                                 chat.jEditorPane1.setText("<html><body>" + stuff + "</body></html>");
                             }
                             System.exit(0);
+                        }
+
+                        private String arrayToList(Object[] string) {
+                            return Client.arrayToString(string);
                         }
                     }).start();
                     chat.jButton1.addActionListener(new ActionListener() {
@@ -97,5 +91,12 @@ public class Client extends JFrame {
             }
         });
         pack();
+    }
+    public static String arrayToString(Object[] array) {
+        String stri = "";
+        for(Object str : array) {
+            stri += (String) str;
+        }
+        return stri;
     }
 }
