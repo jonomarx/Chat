@@ -17,7 +17,7 @@ public class Server {
         while(true) {
             Socket s = sock.accept();
             list.add(s);
-            new PrintStream(s.getOutputStream()).println("Version: " + version + "<br>\n");
+            new PrintStream(s.getOutputStream()).println("Version: " + version + "\n");
             new Thread(new Runnable() {
                 @Override
                 public void run() {

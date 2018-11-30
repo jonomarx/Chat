@@ -59,7 +59,7 @@ public class Client extends JFrame {
                                 String listString = arrayToList(list.toArray());
                                 String stuff = listString;
                                 System.out.println(stuff);
-                                chat.jEditorPane1.setText("<html><body>" + stuff.substring(8) + "</body></html>");
+                                chat.jEditorPane1.setText("<html><body>" + stuff + "</body></html>");
                             }
                             System.exit(0);
                         }
