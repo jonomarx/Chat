@@ -37,8 +37,6 @@ public class JoinPanel extends javax.swing.JPanel {
 
         jButton1.setText("Enter Room");
 
-        jTextField2.setText("Default");
-
         jLabel1.setText("Name");
 
         jLabel2.setText("Server (ip)");
