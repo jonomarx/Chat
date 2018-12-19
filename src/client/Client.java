@@ -47,8 +47,13 @@ public class Client extends JFrame {
                         @Override
                         public void run() {
                             LinkedList<String> list = new LinkedList<>();
+                            boolean ok = false;
                             while(in.hasNextLine()) {
                                 String string = in.nextLine().trim();
+                                if(string.equals("too many connections!")) {
+                                    JOptionPane.showMessageDialog(Client.this, "Sorry, there are too many connections!");
+                                    ok = false;
+                                } else ok = true;
                                 if(!string.startsWith("Version: " + version + "") && string.startsWith("Version: ")) {
                                     JOptionPane.showMessageDialog(rootPane, "please update your client version (or downgrade) to version " + string.substring(9, 12));
                                     System.exit(0);
@@ -60,6 +65,7 @@ public class Client extends JFrame {
                                 String stuff = listString;
                                 System.out.println(stuff);
                                 chat.jEditorPane1.setText("<html><body>" + stuff + "</body></html>");
+                                if(!ok) break;
                             }
                             System.exit(0);
                         }
@@ -82,6 +88,13 @@ public class Client extends JFrame {
                             System.exit(0);
                          }
                     });
+                    Client.this.chat.jButton2.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        out.println(name + " left the room<br>");
+                        System.exit(0);
+                    }
+                });
                     
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(Client.this, "invalid server. Please check the server name or connect to the internet");

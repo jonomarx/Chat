@@ -12,7 +12,8 @@ public class Server {
     
     static LinkedList<Socket> list = new LinkedList<>();
     public static void main(String[] args) throws IOException {
-        System.setOut(new PrintStream(new File(System.nanoTime() + ".log")));
+        File f = new File(System.nanoTime() + ".log");
+        System.setOut(new PrintStream(f));
         ServerSocket sock = new ServerSocket(1982);
         while(true) {
             Socket s = sock.accept();
@@ -22,6 +23,7 @@ public class Server {
                 @Override
                 public void run() {
                     try {
+                        if(list.size() > 20) (new PrintStream(s.getOutputStream())).println("too many connections!");
                         Scanner scanner = new Scanner(s.getInputStream());
                         while(scanner.hasNextLine()) {
                             String string = scanner.nextLine().trim();
