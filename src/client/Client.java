@@ -20,6 +20,7 @@ public class Client extends JFrame {
     ChatWindow chat = new ChatWindow();
     JoinPanel join = new JoinPanel();
     String name;
+    public boolean isBrowsingSupported = Desktop.getDesktop().isSupported(Desktop.Action.BROWSE);
     
     public static void main(String[] args) {
         Client client = new Client();
@@ -69,6 +70,21 @@ public class Client extends JFrame {
                             }
                             System.exit(0);
                         }
+                        chat.jEditorPane1.addHyperlinkListener(new HyperlinkListener() {
+                            public void hyperlinkUpdate(HyperlinkEvent e) {
+                                try {
+                                    if(!isBrowingSupported) {
+                                        JOptionPane.showMessageDialog(rootPane, "Browing isn't supported :( ");
+                                        return;
+                                    }
+                                    if(e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
+                                        Desktop.getDesktop().browse(e.getURL().toURI());
+                                    }
+                                } catch(Exception) {
+                                    JOptionPane.showMessageDialog(rootPane, "Oops! The Url didn't work!");
+                                }
+                            }
+                        });
 
                         private String arrayToList(Object[] string) {
                             return Client.arrayToString(string);
