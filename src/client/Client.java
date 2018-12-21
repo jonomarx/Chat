@@ -59,7 +59,7 @@ public class Client extends JFrame {
                                     System.exit(0);
                                 }
                                 if(string.startsWith("Version:")) string = string.substring(12);
-                                
+                                string = findHyperLinks(string);
                                 list.add(string + "<br>");
                                 String listString = arrayToList(list.toArray());
                                 String stuff = listString;
@@ -72,6 +72,18 @@ public class Client extends JFrame {
 
                         private String arrayToList(Object[] string) {
                             return Client.arrayToString(string);
+                        }
+                        private String findHyperLinks(String str) {
+                            String stri;
+                            String endString = "";
+                            for(String i : (String[]) str) {
+                                stri = i;
+                                if(i.startsWith("https://")) {
+                                    stri = "<a href=" + stri + ">" + stri + "</a>";
+                                }
+                                endString += stri + " ";
+                            }
+                            return endString;
                         }
                     }).start();
                     chat.jButton1.addActionListener(new ActionListener() {
