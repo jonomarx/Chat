@@ -6,4 +6,4 @@ Master is Stable version
 YES!
 Jars FINALLY work via command line.
 
-On ubuntu (or maybe everything else) the program won't exit if you close the window.
+On ubuntu & Mac the program won't exit if you close the window.
