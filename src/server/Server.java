@@ -13,11 +13,11 @@ public class Server {
     static LinkedList<Socket> list = new LinkedList<>();
     
     public static void main(String[] args) throws IOException {
-        int limit = 20;
+        int limita = 20;
         if(args.length == 1) {
-            limit = Integer.parseInt(args[0]);
+            limita = Integer.parseInt(args[0]);
         }
-        
+        final int limit = limita;
         File f = new File(System.nanoTime() + ".log");
         System.setOut(new PrintStream(f));
         ServerSocket sock = new ServerSocket(1982);
