@@ -1,5 +1,6 @@
 package client;
 
+import java.awt.Desktop;
 import javax.swing.*;
 import java.awt.event.*;
 import java.io.IOException;
@@ -12,6 +13,8 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
 
 public class Client extends JFrame {
     
@@ -20,7 +23,7 @@ public class Client extends JFrame {
     ChatWindow chat = new ChatWindow();
     JoinPanel join = new JoinPanel();
     String name;
-    public boolean isBrowsingSupported = Desktop.getDesktop().isSupported(Desktop.Action.BROWSE);
+    public static boolean isBrowsingSupported = Desktop.getDesktop().isSupported(Desktop.Action.BROWSE);
     
     public static void main(String[] args) {
         Client client = new Client();
@@ -64,44 +67,30 @@ public class Client extends JFrame {
                                 list.add(string + "<br>");
                                 String listString = arrayToList(list.toArray());
                                 String stuff = listString;
+                                if(stuff.startsWith("<br> <br>")) stuff.substring(4);
                                 System.out.println(stuff);
-                                chat.jEditorPane1.setText("<html><body>" + stuff + "</body></html>");
+                                chat.jEditorPane1.setText("<html><body>" + stuff.substring(5) + "</body></html>");
                                 if(!ok) break;
                             }
                             System.exit(0);
                         }
-                        chat.jEditorPane1.addHyperlinkListener(new HyperlinkListener() {
-                            public void hyperlinkUpdate(HyperlinkEvent e) {
-                                try {
-                                    if(!isBrowingSupported) {
-                                        JOptionPane.showMessageDialog(rootPane, "Browing isn't supported :( ");
-                                        return;
-                                    }
-                                    if(e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-                                        Desktop.getDesktop().browse(e.getURL().toURI());
-                                    }
-                                } catch(Exception) {
-                                    JOptionPane.showMessageDialog(rootPane, "Oops! The Url didn't work!");
-                                }
-                            }
-                        });
-
-                        private String arrayToList(Object[] string) {
-                            return Client.arrayToString(string);
-                        }
-                        private String findHyperLinks(String str) {
-                            String stri;
-                            String endString = "";
-                            for(String i : (String[]) str) {
-                                stri = i;
-                                if(i.startsWith("https://")) {
-                                    stri = "<a href=" + stri + ">" + stri + "</a>";
-                                }
-                                endString += stri + " ";
-                            }
-                            return endString;
-                        }
                     }).start();
+                        
+                    chat.jEditorPane1.addHyperlinkListener(new HyperlinkListener() {
+                        public void hyperlinkUpdate(HyperlinkEvent e) {
+                            try {
+                                if(!Client.isBrowsingSupported) {
+                                    JOptionPane.showMessageDialog(rootPane, "Browing isn't supported :( ");
+                                    return;
+                                }
+                                if(e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
+                                    Desktop.getDesktop().browse(e.getURL().toURI());
+                                }
+                            } catch(Exception ep) {
+                                JOptionPane.showMessageDialog(rootPane, "Oops! The Url didn't work!");
+                            }
+                        }
+                    });
                     chat.jButton1.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
@@ -130,6 +119,21 @@ public class Client extends JFrame {
                     Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+                private String arrayToList(Object[] string) {
+                            return Client.arrayToString(string);
+                        }
+                        private String findHyperLinks(String str) {
+                            String stri;
+                            String endString = "";
+                            for(String i : (String[]) str.split(" ")) {
+                                stri = i;
+                                if(i.startsWith("https://")) {
+                                    stri = "<a href=" + stri + ">" + stri + "</a>";
+                                }
+                                endString += stri + " ";
+                            }
+                            return endString;
+                        }
         });
         pack();
     }

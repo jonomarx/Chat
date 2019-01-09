@@ -11,7 +11,13 @@ public class Server {
     public static double version = 1.1;
     
     static LinkedList<Socket> list = new LinkedList<>();
+    
     public static void main(String[] args) throws IOException {
+        int limit = 20;
+        if(args.length == 1) {
+            limit = Integer.parseInt(args[0]);
+        }
+        
         File f = new File(System.nanoTime() + ".log");
         System.setOut(new PrintStream(f));
         ServerSocket sock = new ServerSocket(1982);
@@ -23,7 +29,7 @@ public class Server {
                 @Override
                 public void run() {
                     try {
-                        if(list.size() > 20) (new PrintStream(s.getOutputStream())).println("too many connections!");
+                        if(list.size() > limit) (new PrintStream(s.getOutputStream())).println("too many connections!");
                         Scanner scanner = new Scanner(s.getInputStream());
                         while(scanner.hasNextLine()) {
                             String string = scanner.nextLine().trim();
